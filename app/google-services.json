@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "880022578065",
+    "project_id": "kinghills-backend",
+    "storage_bucket": "kinghills-backend.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:880022578065:android:5c97aeba245549b4e4f030",
+        "android_client_info": {
+          "package_name": "com.namans.kinghillslpu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCffyOoVdm9xNc82aB-ICYgLAA-XaN2ea0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">KingHills</string>
+    <string name="enter_otp_sent_to">Enter OTP sent to</string>
+    <string name="didn_t_receive_the_otp">Didn\'t receive the OTP</string>
+    <string name="didn_t_receive_otp">Didn\'t receive OTP?</string>
+    <string name="verify">VERIFY</string>
+    <string name="title_activity_driver_map_acitivity">DriverMapAcitivity</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="my_map_api_key">AIzaSyAJ_uFIZ78Fpu4wtZn6W-4_ZO0wa0koxjE</string>
+</resources>

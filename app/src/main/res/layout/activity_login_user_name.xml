@@ -1,0 +1,86 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_margin="20dp"
+    android:weightSum="100"
+    tools:context="com.namans.LoginOTP">
+
+    <!-- Phone Icon -->
+    <ImageView
+        android:layout_width="383dp"
+        android:layout_height="99dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="5"
+        android:background="@android:color/transparent"
+        android:padding="10dp"
+        app:srcCompat="@drawable/baseline_account_circle_24" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:letterSpacing="0.08"
+        android:text="   What's your name?"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_weight="5"
+        android:layout_marginTop="1dp">
+
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/white_rectanglebox"
+            android:elevation="5dp"
+            android:hint="Please enter your name"
+            android:maxLength="10"
+            android:inputType="text"
+            android:layout_weight="10"
+            android:id="@+id/login_username"
+            android:padding="10dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:layout_weight="6"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/login_let_me_in_btn"
+            android:layout_width="145dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/login_rounded"
+            android:letterSpacing="0.08"
+            android:text="Next"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:backgroundTint="@null" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="34dp"
+        android:indeterminateTint="#FF8839"
+        android:layout_gravity="center"
+        android:id="@+id/login_progress_bar" />
+
+</LinearLayout>

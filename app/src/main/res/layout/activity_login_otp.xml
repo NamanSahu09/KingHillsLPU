@@ -1,0 +1,97 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_margin="20dp"
+    android:weightSum="100"
+    android:backgroundTint="@color/white"
+    android:background="@color/white"
+    tools:context="com.namans.LoginOTP">
+
+    <!-- Phone Icon -->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="138dp"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/cellphn"
+        android:layout_weight="5"
+        android:layout_marginTop="10dp"
+        android:padding="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:letterSpacing="0.08"
+        android:text=" Enter your mobile number"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_weight="5"
+        android:layout_marginTop="1dp">
+
+        <com.hbb20.CountryCodePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/login_countrycode" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/white_rectanglebox"
+            android:elevation="5dp"
+            android:hint="Mobile Number"
+            android:inputType="phone"
+            android:layout_weight="10"
+            android:id="@+id/login_mobile_number"
+            android:padding="10dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:layout_weight="6"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/send_otp_btn"
+            android:layout_width="145dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/login_rounded"
+            android:letterSpacing="0.08"
+            android:text="Send OTP"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:backgroundTint="@null" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="34dp"
+        android:indeterminateTint="#FF8839"
+        android:layout_gravity="center"
+        android:id="@+id/login_progress_bar" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:text="" />
+
+</LinearLayout>
