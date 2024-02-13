@@ -58,7 +58,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void checkLocationPermission() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // Location permissions are granted
-            requestForPermission(); // Request permissions if not granted
+            requestForPermission();
+            // Request permissions if not granted
         } else {
             requestForPermission();
         }
@@ -143,7 +144,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, location -> {
                 if (location != null) {
                     LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 15)); // Adjust zoom level as needed
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 15));
                 }
             });
         } else {
