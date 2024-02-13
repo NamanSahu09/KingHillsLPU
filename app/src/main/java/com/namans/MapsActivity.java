@@ -51,22 +51,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
-        checkLocationpermission();
+        checkLocationPermission();
 
     }
 
-    private void checkLocationpermission() {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            // Location permissions are granted get LOCATION
-            getUserLocation();
-
-
+    private void checkLocationPermission() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            // Location permissions are granted
+            requestForPermission(); // Request permissions if not granted
         } else {
             requestForPermission();
         }
-
-
     }
+
 
 
     void getUserLocation() {
@@ -109,11 +106,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-    void requestForPermission()
-    {
-        ActivityCompat.requestPermissions(this,new String[] {android.Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION }, LOCATION_REQUEST_CODE );
-
-
+    void requestForPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
     }
 
     @Override
@@ -135,20 +129,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        // Enable the "My Location" button
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-        //LatLng lpu = new LatLng(31.2560, 75.7051);
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(lpu));
-        //mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
-       // mMap.addMarker(new MarkerOptions().position(lpu).title("Lovely Professional University"));
-
-
-
-
-
+        // Move camera to the user's location if available
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mMap.setMyLocationEnabled(true);
+            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, location -> {
+                if (location != null) {
+                    LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 15)); // Adjust zoom level as needed
+                }
+            });
+        } else {
+            requestForPermission(); // Request permissions if not granted
+        }
     }
+
 }
