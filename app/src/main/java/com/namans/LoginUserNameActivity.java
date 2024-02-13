@@ -89,12 +89,6 @@ public class LoginUserNameActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-
-
     void getUsername()
     {
         setInProgress(true);

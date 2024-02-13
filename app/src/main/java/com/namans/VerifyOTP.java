@@ -239,34 +239,26 @@ public class VerifyOTP extends AppCompatActivity {
 
 
 
-    void startResendTimer()
-    {
+    void startResendTimer() {
         resendOtpTextView.setEnabled(false);
         Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask()
-        {
+        timer.scheduleAtFixedRate(new TimerTask() {
             @Override
-            public void run()
-            {
-                timeoutSeconds = timeoutSeconds-1;
-                resendOtpTextView.setText("Resend OTP " + timeoutSeconds + "s");
-
-                if (timeoutSeconds != 0)
-                {
-                    timeoutSeconds = 60L;
-
+            public void run() {
+                if (timeoutSeconds > 0) {
+                    timeoutSeconds = timeoutSeconds - 1;
+                    runOnUiThread(() -> resendOtpTextView.setText("Resend OTP " + timeoutSeconds + "s"));
+                } else {
+                    timer.cancel();
                     runOnUiThread(() -> {
                         resendOtpTextView.setEnabled(true);
                         resendOtpTextView.setText("RESEND OTP");
-                        resendOtpTextView.setEnabled(true);
                     });
                 }
-
-                timer.cancel();
-
             }
-        },0,1000);
+        }, 0, 1000);
     }
+
 }
 
 
