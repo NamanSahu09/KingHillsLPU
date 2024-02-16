@@ -9,4 +9,6 @@
     <string name="my_map_api_key">AIzaSyAJ_uFIZ78Fpu4wtZn6W-4_ZO0wa0koxjE</string>
     <style name="AppTheme" parent="Theme.AppCompat.DayNight"></style>
 
+<!--    <string name="select">Select Location</string>-->
+
 </resources>

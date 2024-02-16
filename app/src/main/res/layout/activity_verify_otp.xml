@@ -184,11 +184,11 @@
                 android:id="@+id/login_next_btn"
                 android:layout_width="155dp"
                 android:layout_height="45dp"
-                android:background="@drawable/login_rounded"
+                android:background="@drawable/booknow"
                 android:letterSpacing="0.08"
                 android:text="@string/verify"
-                android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:textSize="17sp"
                 android:textStyle="bold"
                 app:backgroundTint="@null" />
 

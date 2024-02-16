@@ -62,14 +62,14 @@
         android:layout_marginStart="55dp"
         android:layout_marginEnd="47dp"
         android:layout_marginBottom="36dp"
-        android:background="@drawable/login_rounded"
+        android:background="@drawable/booknow"
         android:elevation="5dp"
         android:letterSpacing="0.08"
         android:gravity="center"
         android:hint="   Continue with Phone"
         android:textStyle="bold"
         android:padding="12dp"
-        android:textColorHint="@color/black"
+        android:textColorHint="@color/white"
         android:textSize="18sp"
         app:backgroundTint="@null" />
 
@@ -82,7 +82,7 @@
         android:layout_marginStart="83dp"
         android:layout_marginEnd="293dp"
         android:layout_marginBottom="47dp"
-        android:background="@drawable/login_rounded"
+        android:background="@drawable/booknow"
         android:src="@drawable/phonehomepage" />
 
 
