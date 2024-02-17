@@ -2,10 +2,12 @@ package com.namans;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -14,10 +16,13 @@ import android.graphics.drawable.Drawable;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Toast;
 import android.location.Location;
+import android.widget.Toolbar;
 
 
 import com.codebyashish.googledirectionapi.AbstractRouting;
@@ -42,6 +47,8 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.RoundCap;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
+import com.namans.kinghillslpu.MainActivity;
 import com.namans.kinghillslpu.R;
 import com.namans.kinghillslpu.databinding.ActivityMapsBinding;
 
@@ -53,12 +60,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ActivityMapsBinding binding;
 
     private ArrayList<Polyline>polyline = null;
+    private ArrayList<Polyline> polylines = new ArrayList<>();
+
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+
+    Toolbar toolbar;
+
     public static int LOCATION_REQUEST_CODE = 100;
 
     double userLat,userLong;
 
     private LatLng destinationLocation, userLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
+
+    private Button bookNow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +97,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         checkLocationpermission();
 
+
+//        drawerLayout = findViewById(R.id.drawer_layout);
+//        drawerLayout = findViewById(R.id.)
+
+        bookNow = findViewById(R.id.btnBookNow);
+        bookNow.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+
+        });
+
+
     }
+
+
+
+
+
+
+
+
+
 
     private void checkLocationpermission() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&

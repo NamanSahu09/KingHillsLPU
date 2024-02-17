@@ -2,21 +2,18 @@
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:padding="1dp"
-
-    >
-
-    <!-- Header -->
-
-    <!-- Map Placeholder -->
-
+    android:layout_height="match_parent"
+    android:padding="1dp"
+    android:fitsSystemWindows="true">
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="android:background=&quot;@drawable/white_rectanglebox&quot;" />
+        android:layout_width="410dp"
+        android:layout_height="187dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="0dp"
+        android:background="@drawable/white_rectanglebox"
+        android:text="Sample Text" />
 
     <fragment
         android:id="@+id/map"
@@ -25,9 +22,7 @@ android:padding="1dp"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_marginTop="2dp"
-        tools:context="com.namans.MapsActivity"
-
-        />
+        tools:context="com.namans.MapsActivity" />
 
     <TextView
         android:id="@+id/tvHeader"
@@ -39,32 +34,27 @@ android:padding="1dp"
         android:layout_weight="10"
         android:letterSpacing="0.08"
         android:text="KingHills"
-        android:textColor="@color/white"
+        android:textColor="@android:color/white"
         android:textSize="24sp"
         android:textStyle="bold" />
 
-
-
-
-
     <FrameLayout
-    android:id="@+id/mapPlaceholder"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
-    android:layout_below="@id/tvHeader"
-    android:background="#e0e0e0"> <!-- Placeholder color -->
-    <!-- Include your Map Fragment here -->
-</FrameLayout>
+        android:id="@+id/mapPlaceholder"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/tvHeader"
+        android:layout_weight="1"
+        android:background="#e0e0e0"> <!-- Placeholder color -->
+        <!-- Include your Map Fragment here -->
+    </FrameLayout>
 
-<!-- Bottom Panel -->
+    <!-- Bottom Panel -->
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
-
 
         <!-- Add Luggage and Quantity might be a custom view with buttons and text -->
 
@@ -75,7 +65,6 @@ android:padding="1dp"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
-
             <Button
                 android:id="@+id/btnBookNow"
                 android:layout_width="408dp"
@@ -85,19 +74,9 @@ android:padding="1dp"
                 android:letterSpacing="0.08"
                 android:text="Book Now"
                 android:textAlignment="center"
-                android:textColor="@color/white"
+                android:textColor="@android:color/white"
                 android:textSize="20sp"
-                android:textStyle="bold"
-
-
-                />
-
-
+                android:textStyle="bold" />
         </LinearLayout>
-
-
     </LinearLayout>
-
 </RelativeLayout>
-
-

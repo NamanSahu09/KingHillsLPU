@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:orientation="vertical"
+    android:background="@drawable/booknow"
+    android:gravity="bottom"
+    android:padding="20dp"
+    >
+
+    <ImageView
+        android:layout_width="386dp"
+        android:layout_height="98dp"
+        android:src="@drawable/profile" />
+
+    <TextView
+        android:layout_width="390dp"
+        android:layout_height="wrap_content"
+        android:text="Naman"
+        android:textAlignment="center"
+        android:textSize="24dp" />
+</LinearLayout>
