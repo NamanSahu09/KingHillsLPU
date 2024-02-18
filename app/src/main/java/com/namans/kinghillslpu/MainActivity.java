@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateTotalCostTextView() {
         double totalCost = (quantity * costPerItem);
         double s = 15.00;
-        //totalCostTextView.setText("Total Cost: Rs " + (s + totalCost));
+        totalCostTextView.setText("Cost: Rs " + (totalCost));
         amountTextView.setText("Amount to be paid: Rs " + String.format("%.2f", (s+totalCost)));
 
     }

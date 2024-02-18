@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.Toast;
 import android.location.Location;
 import android.widget.Toolbar;
@@ -52,12 +54,16 @@ import com.namans.kinghillslpu.MainActivity;
 import com.namans.kinghillslpu.R;
 import com.namans.kinghillslpu.databinding.ActivityMapsBinding;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback , RouteListener {
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
+
+    private SearchView mapSearchView;
 
     private ArrayList<Polyline>polyline = null;
     private ArrayList<Polyline> polylines = new ArrayList<>();
@@ -83,13 +89,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
+        //SearchView add kr rha mai
+
+        mapSearchView = findViewById(R.id.mapSearch);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         //SupportMapFragment mapFragment1=(SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(this);
-        }
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -101,6 +109,59 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        drawerLayout = findViewById(R.id.drawer_layout);
 //        drawerLayout = findViewById(R.id.)
 
+        mapSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                String location = mapSearchView.getQuery().toString();
+                List<Address> addressList = null;
+                if (location != null && !location.isEmpty()) {
+                    Geocoder geocoder = new Geocoder(MapsActivity.this);
+                    try {
+                        addressList = geocoder.getFromLocationName(location, 1);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        // Handle the exception gracefully, for example, by showing a toast
+                        Toast.makeText(MapsActivity.this, "Error searching for location", Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+
+                    if (addressList != null && !addressList.isEmpty()) {
+                        Address address = addressList.get(0);
+                        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                        mMap.clear();
+                        MarkerOptions markerOptions = new MarkerOptions();
+                        markerOptions.position(latLng);
+                        markerOptions.icon(setIcon(MapsActivity.this, R.drawable.ic_person_pin_green));
+                       // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12));
+                        mMap.addMarker(markerOptions);
+                        if (userLocation != null) {
+                            getRoute(userLocation, latLng);
+                        } else {
+                            fetchMyLocation(); // Fetch user location if not already available
+                        }
+                    } else {
+                        // No address found for the given location
+                        Toast.makeText(MapsActivity.this, "No address found for location: " + location, Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    // Location is null or empty
+                    Toast.makeText(MapsActivity.this, "Please enter a valid location", Toast.LENGTH_SHORT).show();
+                }
+                fetchMyLocation();
+                return false;
+            }
+
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
+
         bookNow = findViewById(R.id.btnBookNow);
         bookNow.setOnClickListener(v -> {
             Intent intent = new Intent(this, MainActivity.class);
@@ -109,15 +170,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         });
 
-
     }
-
-
-
-
-
-
-
 
 
 
@@ -194,7 +247,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(MapsActivity.this, R.raw.map_style));
-        mMap.setPadding(0, 100, 0, 100);
+        mMap.setPadding(0, 600, 0, 100);
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -217,7 +270,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         fetchMyLocation(); // Fetch user location when the map is ready
     }
 
-
     private void getRoute(LatLng userLocation, LatLng destinationLocation)
     {
         RouteDrawing routeDrawing = new RouteDrawing.Builder()
@@ -229,12 +281,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         routeDrawing.execute();
 
     }
-
-
-
-
-
-
 
     private void fetchMyLocation() {
 
@@ -293,10 +339,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         drawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
-
-
-
-
 
 
 
