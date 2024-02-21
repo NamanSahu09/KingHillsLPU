@@ -64,11 +64,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ActivityMapsBinding binding;
 
     private SearchView mapSearchView;
+    private SearchView mapSearchView1;
 
     private ArrayList<Polyline>polyline = null;
     private ArrayList<Polyline> polylines = new ArrayList<>();
 
     DrawerLayout drawerLayout;
+
     NavigationView navigationView;
 
     Toolbar toolbar;
@@ -93,7 +95,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //SearchView add kr rha mai
 
         mapSearchView = findViewById(R.id.mapSearch);
-
+        mapSearchView1 = findViewById(R.id.anotherMapSearch);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -108,49 +110,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 //        drawerLayout = findViewById(R.id.drawer_layout);
 //        drawerLayout = findViewById(R.id.)
-
         mapSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                String location = mapSearchView.getQuery().toString();
-                List<Address> addressList = null;
-                if (location != null && !location.isEmpty()) {
-                    Geocoder geocoder = new Geocoder(MapsActivity.this);
-                    try {
-                        addressList = geocoder.getFromLocationName(location, 1);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        // Handle the exception gracefully, for example, by showing a toast
-                        Toast.makeText(MapsActivity.this, "Error searching for location", Toast.LENGTH_SHORT).show();
-                        return false;
-                    }
-
-                    if (addressList != null && !addressList.isEmpty()) {
-                        Address address = addressList.get(0);
-                        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                        mMap.clear();
-                        MarkerOptions markerOptions = new MarkerOptions();
-                        markerOptions.position(latLng);
-                        markerOptions.icon(setIcon(MapsActivity.this, R.drawable.ic_person_pin_green));
-                       // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12));
-                        mMap.addMarker(markerOptions);
-                        if (userLocation != null) {
-                            getRoute(userLocation, latLng);
-                        } else {
-                            fetchMyLocation(); // Fetch user location if not already available
-                        }
-                    } else {
-                        // No address found for the given location
-                        Toast.makeText(MapsActivity.this, "No address found for location: " + location, Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    // Location is null or empty
-                    Toast.makeText(MapsActivity.this, "Please enter a valid location", Toast.LENGTH_SHORT).show();
-                }
-                fetchMyLocation();
+                searchLocation(query, true); // Search for the location and mark it as from location
                 return false;
             }
-
 
             @Override
             public boolean onQueryTextChange(String newText) {
@@ -158,19 +123,70 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        mapSearchView1.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchLocation(query, false); // Search for the location and mark it as destination location
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
 
-        bookNow = findViewById(R.id.btnBookNow);
-        bookNow.setOnClickListener(v -> {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
-
-        });
-
     }
+
+
+
+    // Method to search for a location and mark it on the map
+    private void searchLocation(String query, boolean isFromLocation) {
+        Geocoder geocoder = new Geocoder(this);
+        List<Address> addressList;
+        try {
+            addressList = geocoder.getFromLocationName(query, 1);
+            if (addressList != null && !addressList.isEmpty()) {
+                Address address = addressList.get(0);
+                LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
+                MarkerOptions markerOptions = new MarkerOptions().position(location).title(query);
+                if (isFromLocation) {
+                    // Set marker icon for from location
+                    markerOptions.icon(setIcon(MapsActivity.this, R.drawable.ic_person_pin_red));
+                    // If it's from location, set it as userLocation
+                    userLocation = location;
+                } else {
+                    // Set marker icon for destination
+                    markerOptions.icon(setIcon(MapsActivity.this, R.drawable.ic_person_pin_green));
+                    // If it's destination location, set it as destinationLocation
+                    destinationLocation = location;
+                }
+                mMap.addMarker(markerOptions);
+
+                // Check if both from and destination locations are set
+                if (userLocation != null && destinationLocation != null) {
+                    // Get route from userLocation to destinationLocation
+                    getRoute(userLocation, destinationLocation);
+                }
+            } else {
+                Toast.makeText(this, "Location not found: " + query, Toast.LENGTH_SHORT).show();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+
+
 
 
 
@@ -209,7 +225,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
-                    mMap.addMarker(new MarkerOptions().position(userLocation).title("I am here!"));
+                   // mMap.addMarker(new MarkerOptions().position(userLocation).title("I am here!"));
 
                     enableMyLocation();
                 }
@@ -247,7 +263,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(MapsActivity.this, R.raw.map_style));
-        mMap.setPadding(0, 600, 0, 100);
+        mMap.setPadding(0, 495, 0, 100);
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -394,6 +410,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 polylines.add(polyline);
             }
         }
+
+        bookNow = findViewById(R.id.btnBookNow);
+        bookNow.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+
+        });
+
+
     }
 
     @Override
